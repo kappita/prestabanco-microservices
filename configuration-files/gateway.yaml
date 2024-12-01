@@ -1,14 +1,14 @@
 server:
-  port: 8383
+  port: 8080
 
 eureka:
   client:
     fetch-registry: true
     register-with-eureka: true
     service-url:
-      default-zone: http://127.0.0.1:8761/eureka
+      default-zone: http://localhost:8761/eureka
   instance:
-    prefer-ip-address: true
+    hostname: localhost
 
 spring:
   application:
@@ -32,4 +32,3 @@ spring:
           uri: lb://auth
           predicates:
             - Path=/clients/**
-            - Path=/executives/**
