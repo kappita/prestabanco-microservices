@@ -28,8 +28,8 @@ spring:
             allowed-headers: "*"
             allow-credentials: true
       routes:
-        - id: user-microservice
-          uri: lb://user-microservice
+        - id: auth
+          uri: lb://auth
           predicates:
             - Path=/clients/**
             - Path=/executives/**
