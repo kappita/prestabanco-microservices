@@ -23,9 +23,6 @@ import java.util.Optional;
 @Service
 public class MortgageLoanSimulationService {
 
-    @Value("${bank.quota_income_threshold}")
-    float quotaIncomeThreshold;
-
     @Autowired
     LoanTypeRepository loanTypeRepository;
 

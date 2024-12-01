@@ -43,10 +43,7 @@ public class MortgageLoanService {
     @Autowired
     LoanTypeRepository loanTypeRepository;
 
-
-
-    @Value("${bank.quota_income_threshold}")
-    float quotaIncomeThreshold;
+    
     @Autowired
     private PreApprovedMortgageLoanRepository preApprovedMortgageLoanRepository;
 

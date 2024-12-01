@@ -31,5 +31,5 @@ spring:
         - id: user-microservice
           uri: lb://user-microservice
           predicates:
-            - Path=/client/**
-            - Path=/executive/**
+            - Path=/clients/**
+            - Path=/executives/**
