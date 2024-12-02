@@ -28,7 +28,7 @@ spring:
             allowed-headers: "*"
             allow-credentials: true
       routes:
-        - id: auth
+        - id: auth-service
           uri: lb://auth
           predicates:
             - Path=/clients/**, /executives/**
