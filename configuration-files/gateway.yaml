@@ -31,4 +31,6 @@ spring:
         - id: auth
           uri: lb://auth
           predicates:
-            - Path=/clients/login, /executives/login
+            - Path=/clients/**, Path=/executives/**
+
+          
