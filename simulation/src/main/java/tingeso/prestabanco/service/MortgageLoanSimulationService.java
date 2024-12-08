@@ -12,46 +12,40 @@ import tingeso.prestabanco.model.ClientModel;
 import tingeso.prestabanco.model.LoanTypeModel;
 import tingeso.prestabanco.model.MortgageLoanModel;
 import tingeso.prestabanco.model.PreApprovedMortgageLoanModel;
-import tingeso.prestabanco.repository.LoanTypeRepository;
 
 import java.sql.Date;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class MortgageLoanSimulationService {
 
     @Autowired
-    LoanTypeRepository loanTypeRepository;
+    UtilsService utilsService;
 
-    public SimulationResponse simulate(MortgageSimulationRequest req, ClientModel client) {
+    public SimulationResponse simulate(MortgageSimulationRequest req, ClientModel client, String token) {
         MortgageLoanModel mortgageLoanModel = new MortgageLoanModel();
-        Optional<LoanTypeModel> type = loanTypeRepository.findById(req.getLoan_type_id());
-        System.out.println(type.get().getName());
-        if (type.isEmpty()) {
-            throw new IllegalArgumentException("Loan type not found");
-        }
+        LoanTypeModel type = utilsService.getLoanType(token, req.getLoan_type_id());
         mortgageLoanModel.setClient(client);
         mortgageLoanModel.setFinanced_amount(req.getFinanced_amount());
         mortgageLoanModel.setInterest_rate(req.getInterest_rate());
         mortgageLoanModel.setPayment_term(req.getPayment_term());
-        mortgageLoanModel.setLoan_type(type.get());
+        mortgageLoanModel.setLoan_type(type);
         PreApprovedMortgageLoanModel preApprovedLoanModel = new PreApprovedMortgageLoanModel(mortgageLoanModel);
-        List<SimulationStep> steps = getValidations(req, client);
+        List<SimulationStep> steps = getValidations(req, client, token);
         return new SimulationResponse(steps.isEmpty(), steps, preApprovedLoanModel);
     }
 
-    private List<SimulationStep> getValidations(MortgageSimulationRequest req, ClientModel client) {
+    private List<SimulationStep> getValidations(MortgageSimulationRequest req, ClientModel client, String token) {
         List<SimulationStep> validations = new ArrayList<>();
-        Optional<LoanTypeModel> type = loanTypeRepository.findById(req.getLoan_type_id());
+        LoanTypeModel type = utilsService.getLoanType(token, req.getLoan_type_id());
         MortgageLoanModel mortgageLoanModel = new MortgageLoanModel();
         mortgageLoanModel.setClient(client);
         mortgageLoanModel.setFinanced_amount(req.getFinanced_amount());
         mortgageLoanModel.setInterest_rate(req.getInterest_rate());
         mortgageLoanModel.setPayment_term(req.getPayment_term());
-        mortgageLoanModel.setLoan_type(type.get());
+        mortgageLoanModel.setLoan_type(type);
         validations.add(validateQuotaIncomeRelation(mortgageLoanModel, req.getClient_income()));
         validations.add(validateDebtIncomeRelation(mortgageLoanModel, req.getClient_income(), req.getMonthly_debt()));
         validations.add(validateMaxFinance(mortgageLoanModel, req.getProperty_value()));

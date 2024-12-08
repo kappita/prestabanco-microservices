@@ -32,6 +32,6 @@ public class MortgageSimulationController {
         if (client.isEmpty()) {
             return ResponseEntity.badRequest().build();
         }
-        return ResponseEntity.ok(mortgageLoanSimulationService.simulate(req, client.get()));
+        return ResponseEntity.ok(mortgageLoanSimulationService.simulate(req, client.get(), TokenExtractor.extractToken(authorization)));
     }
 }

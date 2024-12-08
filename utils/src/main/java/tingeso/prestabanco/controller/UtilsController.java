@@ -11,6 +11,7 @@ import tingeso.prestabanco.repository.LoanTypeRepository;
 import tingeso.prestabanco.repository.RoleRepository;
 import tingeso.prestabanco.util.JwtUtil;
 import tingeso.prestabanco.util.Nationalities;
+import tingeso.prestabanco.util.TokenExtractor;
 
 import java.util.List;
 import java.util.Optional;
@@ -38,7 +39,8 @@ public class UtilsController {
 
     @GetMapping("/loan_types")
     public ResponseEntity<List<LoanTypeModel>> getLoanTypes(@RequestHeader("Authorization") String authorization) {
-        Boolean tokenValid = jwtUtil.validateToken(authorization);
+        String token = TokenExtractor.extractToken(authorization);
+        Boolean tokenValid = jwtUtil.validateToken(token);
         if (!tokenValid) {
             return ResponseEntity.badRequest().build();
         }
@@ -48,7 +50,8 @@ public class UtilsController {
 
     @GetMapping("/loan_types/{id}")
     public ResponseEntity<LoanTypeModel> getLoanTypeById(@RequestHeader("Authorization") String authorization, @PathVariable Long id) {
-        Boolean tokenValid = jwtUtil.validateToken(authorization);
+        String token = TokenExtractor.extractToken(authorization);
+        Boolean tokenValid = jwtUtil.validateToken(token);
         if (!tokenValid) {
             return ResponseEntity.badRequest().build();
         }
@@ -63,7 +66,8 @@ public class UtilsController {
 
     @GetMapping("/roles")
     public ResponseEntity<List<RoleModel>> getRoles(@RequestHeader("Authorization") String authorization) {
-        Boolean tokenValid = jwtUtil.validateToken(authorization);
+        String token = TokenExtractor.extractToken(authorization);
+        Boolean tokenValid = jwtUtil.validateToken(token);
         if (!tokenValid) {
             return ResponseEntity.badRequest().build();
         }
@@ -72,7 +76,8 @@ public class UtilsController {
 
     @GetMapping("/roles/{id}")
     public ResponseEntity<RoleModel> getRole(@RequestHeader("Authorization") String authorization, @PathVariable Long id) {
-        Boolean tokenValid = jwtUtil.validateToken(authorization);
+        String token = TokenExtractor.extractToken(authorization);
+        Boolean tokenValid = jwtUtil.validateToken(token);
         if (!tokenValid) {
             return ResponseEntity.badRequest().build();
         }
@@ -85,7 +90,8 @@ public class UtilsController {
 
     @GetMapping("/document_types")
     public ResponseEntity<List<DocumentTypeModel>> getDocumentTypes(@RequestHeader("Authorization") String authorization) {
-        Boolean tokenValid = jwtUtil.validateToken(authorization);
+        String token = TokenExtractor.extractToken(authorization);
+        Boolean tokenValid = jwtUtil.validateToken(token);
         if (!tokenValid) {
             return ResponseEntity.badRequest().build();
         }
@@ -94,7 +100,8 @@ public class UtilsController {
 
     @GetMapping("/loan_status/{id}")
     public ResponseEntity<LoanStatusModel> getLoanStatus(@RequestHeader("Authorization") String authorization, @PathVariable String id) {
-        Boolean tokenValid = jwtUtil.validateToken(authorization);
+        String token = TokenExtractor.extractToken(authorization);
+        Boolean tokenValid = jwtUtil.validateToken(token);
         if (!tokenValid) {
             return ResponseEntity.badRequest().build();
         }
@@ -107,7 +114,8 @@ public class UtilsController {
 
     @GetMapping("/nationalities")
     public ResponseEntity<List<String>> getNationalities(@RequestHeader("Authorization") String authorization) {
-        Boolean tokenValid = jwtUtil.validateToken(authorization);
+        String token = TokenExtractor.extractToken(authorization);
+        Boolean tokenValid = jwtUtil.validateToken(token);
         if (!tokenValid) {
             return ResponseEntity.badRequest().build();
         }

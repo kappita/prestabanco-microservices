@@ -22,10 +22,10 @@ public class UtilsService {
     @Autowired
     private RestTemplate restTemplate;
 
-
+    private static final String base_url = "http://utils";
 
     public List<LoanTypeModel> getLoanTypes(String token) {
-        String url = "http://utils/loan_types";
+        String url = base_url + "/utils/loan_types";
         HttpHeaders headers = new HttpHeaders();
         headers.set("Authorization", "Bearer " + token);
         // Create an HttpEntity with the headers
@@ -42,7 +42,7 @@ public class UtilsService {
     }
 
     public LoanTypeModel getLoanType(String token, Long loanTypeId) {
-        String url = "http://utils/loan_type/" + loanTypeId;
+        String url = base_url + "/utils/loan_type/" + loanTypeId;
         HttpHeaders headers = new HttpHeaders();
         headers.set("Authorization", "Bearer " + token);
         HttpEntity<String> entity = new HttpEntity<>(headers);
@@ -58,7 +58,7 @@ public class UtilsService {
 
 
     public List<RoleModel> getRoles(String token) {
-        String url = "http://utils/roles";
+        String url = base_url + "/utils/roles";
         HttpHeaders headers = new HttpHeaders();
         headers.set("Authorization", "Bearer " + token);
         HttpEntity<String> entity = new HttpEntity<>(headers);
@@ -72,7 +72,7 @@ public class UtilsService {
     }
 
     public RoleModel getRole(String token, Long role_id) {
-        String url = "http://utils/roles/" + role_id.toString();
+        String url = base_url + "/utils/roles/" + role_id.toString();
         HttpHeaders headers = new HttpHeaders();
         headers.set("Authorization", "Bearer " + token);
         HttpEntity<String> entity = new HttpEntity<>(headers);
@@ -87,7 +87,7 @@ public class UtilsService {
 
 
     public List<DocumentTypeModel> getDocumentTypes(String token) {
-        String url = "http://utils/document_type/";
+        String url = base_url + "/utils/document_type/";
         HttpHeaders headers = new HttpHeaders();
         headers.set("Authorization", "Bearer " + token);
         HttpEntity<String> entity = new HttpEntity<>(headers);
@@ -101,7 +101,7 @@ public class UtilsService {
     }
 
     public LoanStatusModel getLoanStatus(String token, String loanStatusId) {
-        String url = "http://utils/loan_status" + loanStatusId;
+        String url = base_url + "/utils/loan_status" + loanStatusId;
         HttpHeaders headers = new HttpHeaders();
         headers.set("Authorization", "Bearer " + token);
         HttpEntity<String> entity = new HttpEntity<>(headers);
@@ -115,7 +115,7 @@ public class UtilsService {
     }
 
     public List<String> getNationalities(String token) {
-        String url = "http://utils/nationalities";
+        String url = base_url + "/utils/nationalities";
         HttpHeaders headers = new HttpHeaders();
         headers.set("Authorization", "Bearer " + token);
         // Create an HttpEntity with the headers
@@ -130,7 +130,4 @@ public class UtilsService {
 
         return response.getBody();
     }
-
-
-
 }
