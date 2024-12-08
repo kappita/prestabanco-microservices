@@ -37,6 +37,6 @@ spring:
           predicates: -Path=/utils/*
         - id: simulator
           uri: lb://simulator
-          predicates: -Path=/simulator/*
+          predicates: - Path=/simulator/*
 
           
