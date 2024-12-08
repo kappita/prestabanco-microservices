@@ -7,9 +7,7 @@ import tingeso.prestabanco.dto.LoginRequest;
 import tingeso.prestabanco.dto.LoginResponse;
 import tingeso.prestabanco.dto.RegisterResponse;
 import tingeso.prestabanco.model.ClientModel;
-import tingeso.prestabanco.model.LoanTypeModel;
-import tingeso.prestabanco.model.MortgageLoanModel;
-import tingeso.prestabanco.repository.LoanTypeRepository;
+
 import tingeso.prestabanco.service.ClientService;
 import tingeso.prestabanco.util.JwtUtil;
 
@@ -23,10 +21,6 @@ public class ClientController {
     @Autowired
     private ClientService clientService;
 
-
-
-    @Autowired
-    private LoanTypeRepository loanTypeRepository;
 
     @Autowired
     private JwtUtil jwtUtil;
@@ -58,28 +52,7 @@ public class ClientController {
         }
         return ResponseEntity.ok(res.get());
     }
-
-    @GetMapping("/me/mortgage_loans")
-    public ResponseEntity<List<MortgageLoanModel>> getMortgageLoans(@RequestHeader("Authorization") String authorization) {
-        Optional<ClientModel> client = jwtUtil.validateClient(authorization);
-        if (client.isEmpty()) {
-            return ResponseEntity.badRequest().build();
-        }
-        return ResponseEntity.ok(clientService.getMortgageRequests(client.get()));
-    }
-
-    @GetMapping("/loan_types")
-    public ResponseEntity<List<LoanTypeModel>> getLoanTypes(@RequestHeader("Authorization") String authorization) {
-        Optional<ClientModel> client = jwtUtil.validateClient(authorization);
-        if (client.isEmpty()) {
-            return ResponseEntity.badRequest().build();
-        }
-
-        return ResponseEntity.ok(loanTypeRepository.findAll());
-    }
-
-//    @GetMapping("")
-//    public List<ClientModel> getAll() {
-//        return clientService.getAll();
-//    }
 }
+
+
+

@@ -1,21 +1,15 @@
 package tingeso.prestabanco;
 
-import org.aspectj.lang.annotation.Before;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import tingeso.prestabanco.dto.MortgageSimulationRequest;
 import tingeso.prestabanco.model.ClientModel;
 import tingeso.prestabanco.model.DocumentTypeModel;
 import tingeso.prestabanco.model.LoanStatusModel;
 import tingeso.prestabanco.model.LoanTypeModel;
-import tingeso.prestabanco.repository.LoanTypeRepository;
-import tingeso.prestabanco.service.MortgageLoanSimulationService;
 
 import java.sql.Date;
 import java.util.List;

@@ -5,11 +5,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import tingeso.prestabanco.dto.LoginRequest;
 import tingeso.prestabanco.dto.LoginResponse;
@@ -18,7 +14,6 @@ import tingeso.prestabanco.model.ClientModel;
 import tingeso.prestabanco.model.RoleModel;
 import tingeso.prestabanco.model.UserModel;
 import tingeso.prestabanco.repository.ClientRepository;
-import tingeso.prestabanco.repository.MortgageLoanRepository;
 import tingeso.prestabanco.repository.RoleRepository;
 import tingeso.prestabanco.repository.UserRepository;
 import tingeso.prestabanco.service.ClientService;
@@ -27,7 +22,6 @@ import tingeso.prestabanco.util.JwtUtil;
 
 import java.sql.Date;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 import static org.mockito.Mockito.when;

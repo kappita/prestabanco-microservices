@@ -2,10 +2,6 @@ package tingeso.prestabanco.service;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import tingeso.prestabanco.dto.LoginRequest;
@@ -34,12 +30,6 @@ public class ClientService {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
-
-    @Autowired
-    private MortgageLoanRepository mortgageLoanRepository;
-
-    @Autowired
-    private PreApprovedMortgageLoanRepository preApprovedRepository;
 
     @Autowired
     private JwtUtil jwtUtil;
@@ -85,18 +75,6 @@ public class ClientService {
         return Optional.of(res);
 
     };
-
-    public List<MortgageLoanModel> getMortgageRequests(ClientModel client) {
-        List<MortgageLoanModel> mortgages = mortgageLoanRepository.findAllByClientId(client.getId());
-        return mortgages;
-    }
-
-
-
-
-//    public Optional<ClientModel> login(String username, String password) {
-//        return
-//    };
 
     private Boolean validateClientDetails(ClientModel client) {
         System.out.println("Validando mail");
