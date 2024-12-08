@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.web.multipart.MultipartFile;
+import tingeso.prestabanco.dto.MortgageLoanRequest;
 
 import java.io.IOException;
 import java.util.ArrayList;

@@ -37,9 +37,7 @@ public class MortgageLoanModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     protected Long id;
-    @ManyToOne
-    @JoinColumn(name = "client_id", referencedColumnName = "id")
-    protected ClientModel client;
+    protected Long client_id;
     @ManyToOne
     @JoinColumn(name = "loan_type_id")
     protected LoanTypeModel loan_type;
@@ -47,17 +45,13 @@ public class MortgageLoanModel {
     protected Long financed_amount;
     protected Float interest_rate;
 
-    @ManyToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+    @ManyToMany(cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH} )
     @JoinTable(
             name = "mortgage_document",
             joinColumns = @JoinColumn(name = "mortgage_id"),
             inverseJoinColumns = @JoinColumn(name = "document_id")
     )
     protected List<DocumentModel> documents;
-
-    @ManyToOne
-    @JoinColumn(name = "status_id")
-    protected LoanStatusModel status;
 
     @ManyToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     @JoinTable(
@@ -68,11 +62,10 @@ public class MortgageLoanModel {
     private List<DocumentTypeModel> missing_documents;
 
     public MortgageLoanModel(MortgageLoanRequest request,
-                             ClientModel client,
+                             Long client_id,
                              LoanStatusModel status,
                              LoanTypeModel loan_type) throws IllegalArgumentException {
-        this.client = client;
-        this.status = status;
+        this.client_id = client_id;
         this.payment_term = request.getPayment_term();
         this.financed_amount = request.getFinanced_amount();
         this.interest_rate = request.getInterest_rate();
@@ -85,8 +78,7 @@ public class MortgageLoanModel {
 
     public MortgageLoanModel(MortgageLoanModel mortgage) {
         this.id = mortgage.getId();
-        this.client = mortgage.getClient();
-        this.status = mortgage.getStatus();
+        this.client_id = mortgage.getClient_id();
         this.payment_term = mortgage.getPayment_term();
         this.financed_amount = mortgage.getFinanced_amount();
         this.interest_rate = mortgage.getInterest_rate();
@@ -144,13 +136,12 @@ public class MortgageLoanModel {
     public String toString() {
         return "MortgageLoanModel{" +
                 "id=" + id +
-                ", client=" + client +
+                ", client=" + client_id +
                 ", loan_type=" + loan_type +
                 ", payment_term=" + payment_term +
                 ", financed_amount=" + financed_amount +
                 ", interest_rate=" + interest_rate +
                 ", documents=" + documents +
-                ", status=" + status +
                 '}';
     }
 }

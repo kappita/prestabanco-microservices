@@ -46,6 +46,21 @@ public class UtilsController {
         return ResponseEntity.ok(loanTypeRepository.findAll());
     }
 
+    @GetMapping("/loan_types/{id}")
+    public ResponseEntity<LoanTypeModel> getLoanTypeById(@RequestHeader("Authorization") String authorization, @PathVariable Long id) {
+        Boolean tokenValid = jwtUtil.validateToken(authorization);
+        if (!tokenValid) {
+            return ResponseEntity.badRequest().build();
+        }
+
+        Optional<LoanTypeModel> loanTypes = loanTypeRepository.findById(id);
+        if (loanTypes.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(loanTypes.get());
+
+    }
+
     @GetMapping("/roles")
     public ResponseEntity<List<RoleModel>> getRoles(@RequestHeader("Authorization") String authorization) {
         Boolean tokenValid = jwtUtil.validateToken(authorization);
@@ -53,6 +68,19 @@ public class UtilsController {
             return ResponseEntity.badRequest().build();
         }
         return ResponseEntity.ok(roleRepository.findAll());
+    }
+
+    @GetMapping("/roles/{id}")
+    public ResponseEntity<RoleModel> getRole(@RequestHeader("Authorization") String authorization, @PathVariable Long id) {
+        Boolean tokenValid = jwtUtil.validateToken(authorization);
+        if (!tokenValid) {
+            return ResponseEntity.badRequest().build();
+        }
+        Optional<RoleModel> role = roleRepository.findById(id);
+        if (role.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(role.get());
     }
 
     @GetMapping("/document_types")

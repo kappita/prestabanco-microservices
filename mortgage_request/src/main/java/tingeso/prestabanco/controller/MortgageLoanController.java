@@ -14,6 +14,7 @@ import tingeso.prestabanco.model.MortgageLoanModel;
 import tingeso.prestabanco.model.UserModel;
 import tingeso.prestabanco.service.MortgageLoanService;
 import tingeso.prestabanco.util.JwtUtil;
+import tingeso.prestabanco.util.TokenExtractor;
 
 import java.util.List;
 import java.util.Optional;
@@ -62,7 +63,8 @@ public class MortgageLoanController {
         if (client.isEmpty()) {
             return ResponseEntity.badRequest().build();
         }
-        return ResponseEntity.ok(mortgageService.addDocuments(id, files, client.get()));
+        String token = TokenExtractor.extractToken(authorization);
+        return ResponseEntity.ok(mortgageService.addDocuments(id, files, token));
     }
 
     @PostMapping("/{id}/set_final_approval")

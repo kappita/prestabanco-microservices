@@ -9,8 +9,10 @@ import org.springframework.web.bind.annotation.*;
 import tingeso.prestabanco.dto.MortgageSimulationRequest;
 import tingeso.prestabanco.dto.SimulationResponse;
 import tingeso.prestabanco.model.ClientModel;
+import tingeso.prestabanco.model.UserModel;
 import tingeso.prestabanco.service.MortgageLoanSimulationService;
 import tingeso.prestabanco.util.JwtUtil;
+import tingeso.prestabanco.util.TokenExtractor;
 
 import java.util.Optional;
 

@@ -1,11 +1,7 @@
 package tingeso.prestabanco.util;
 
 import io.jsonwebtoken.*;
-import io.jsonwebtoken.io.Decoders;
-import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 import tingeso.prestabanco.model.ClientModel;
 import tingeso.prestabanco.model.ExecutiveModel;
@@ -15,8 +11,6 @@ import tingeso.prestabanco.repository.ExecutiveRepository;
 import tingeso.prestabanco.repository.UserRepository;
 
 import javax.crypto.SecretKey;
-import javax.crypto.spec.SecretKeySpec;
-import java.security.Key;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
