@@ -35,5 +35,8 @@ spring:
         - id: utils
           uri: lb://utils
           predicates: -Path=/utils/*
+        - id: simulator
+          uri: lb://simulator
+          predicates: -Path=/simulator/*
 
           
