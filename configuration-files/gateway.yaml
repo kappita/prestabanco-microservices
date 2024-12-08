@@ -20,7 +20,6 @@ spring:
           enabled: true
       default-filters:
         - DedupeResponseHeader=Access-Control-Allow-Origin Access-Control-Allow-Credentials, RETAIN_UNIQUE
-        - PreserveHostHeader=true # Ensure original headers are preserved
       globalcors:
         cors-configurations:
           '[/**]':
