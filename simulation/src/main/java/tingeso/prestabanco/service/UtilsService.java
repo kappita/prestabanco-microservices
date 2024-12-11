@@ -42,7 +42,7 @@ public class UtilsService {
     }
 
     public LoanTypeModel getLoanType(String token, Long loanTypeId) {
-        String url = base_url + "/utils/loan_type/" + loanTypeId;
+        String url = base_url + "/utils/loan_types/" + loanTypeId;
         HttpHeaders headers = new HttpHeaders();
         headers.set("Authorization", "Bearer " + token);
         HttpEntity<String> entity = new HttpEntity<>(headers);
@@ -87,7 +87,7 @@ public class UtilsService {
 
 
     public List<DocumentTypeModel> getDocumentTypes(String token) {
-        String url = base_url + "/utils/document_type/";
+        String url = base_url + "/utils/document_types/";
         HttpHeaders headers = new HttpHeaders();
         headers.set("Authorization", "Bearer " + token);
         HttpEntity<String> entity = new HttpEntity<>(headers);

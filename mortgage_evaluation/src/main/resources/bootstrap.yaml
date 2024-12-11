@@ -20,11 +20,7 @@ spring:
     config:
       enabled: true
       uri: http://localhost:8081
-  datasource:
-    driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5432/auth?useSSL=false
-    username: postgres
-    password: admin
+
   servlet:
     multipart:
       max-file-size: 20MB

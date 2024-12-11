@@ -5,11 +5,8 @@ import lombok.*;
 
 @Data
 @ToString
-@Entity
-@Table(name = "executive")
 @NoArgsConstructor
 public class ExecutiveModel extends UserModel {
-    @Column(name = "name")
     private String name;
 
     public ExecutiveModel(UserModel user, String name) {

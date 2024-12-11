@@ -30,41 +30,22 @@ import static java.lang.Math.pow;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-@Inheritance(strategy = InheritanceType.JOINED)
 @Builder(toBuilder = true)
-@Entity(name = "mortgage_loan")
 public class MortgageLoanModel {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+
     protected Long id;
-    @ManyToOne
-    @JoinColumn(name = "client_id", referencedColumnName = "id")
+
     protected ClientModel client;
-    @ManyToOne
-    @JoinColumn(name = "loan_type_id")
+
     protected LoanTypeModel loan_type;
     protected Integer payment_term;
     protected Long financed_amount;
     protected Float interest_rate;
-
-    @ManyToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
-    @JoinTable(
-            name = "mortgage_document",
-            joinColumns = @JoinColumn(name = "mortgage_id"),
-            inverseJoinColumns = @JoinColumn(name = "document_id")
-    )
     protected List<DocumentModel> documents;
 
-    @ManyToOne
-    @JoinColumn(name = "status_id")
+
     protected LoanStatusModel status;
 
-    @ManyToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
-    @JoinTable(
-            name = "pending_documentation",
-            joinColumns = @JoinColumn(name = "mortgage_id"),
-            inverseJoinColumns = @JoinColumn(name = "document_type_id")
-    )
     private List<DocumentTypeModel> missing_documents;
 
     public MortgageLoanModel(MortgageLoanRequest request,
@@ -92,6 +73,7 @@ public class MortgageLoanModel {
         this.interest_rate = mortgage.getInterest_rate();
         this.documents = mortgage.getDocuments();
         this.loan_type = mortgage.getLoan_type();
+        this.missing_documents = mortgage.getMissing_documents();
 
     }
 

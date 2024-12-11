@@ -26,9 +26,6 @@ public class MortgageLoanService {
     MortgageLoanRepository mortgageLoanRepository;
 
     @Autowired
-    MortgageLoanReviewRepository mortgageLoanReviewRepository;
-
-    @Autowired
     PreApprovedMortgageLoanRepository preApprovedRepository;
 
     @Autowired
@@ -36,6 +33,14 @@ public class MortgageLoanService {
 
     @Autowired
     AuthService authService;
+
+    @Autowired
+    TrackingService trackingService;
+
+    public List<MortgageLoanModel> getAllClientMortgageLoans(ClientModel client) {
+        List<MortgageLoanModel> mortgages = mortgageLoanRepository.findAllByClientId(client.getId());
+        return mortgages;
+    }
 
 
     public MortgageLoanModel getMortgageLoan(Long mortgage_loan_id, UserModel user) {
@@ -52,17 +57,15 @@ public class MortgageLoanService {
     public MortgageLoanModel receiveMortgage(MortgageLoanRequest req, String token) {
         LoanTypeModel loan_type = utilsService.getLoanType(token, req.getLoan_type_id());
         ClientModel client = authService.getClient(token);
-
-        LoanStatusModel loan_status = utilsService.getLoanStatus(token, "E1");
-
         MortgageLoanModel mortgage_loan = new MortgageLoanModel(req,
                                                                client.getId(),
-                                                               loan_status,
                                                                loan_type);
-
-        mortgageLoanRepository.save(mortgage_loan);
-
-        return mortgage_loan;
+        MortgageLoanModel new_mortgage = mortgageLoanRepository.save(mortgage_loan);
+        MortgageStatusRequest mortgage_status_request = new MortgageStatusRequest();
+        mortgage_status_request.setMortgage_id(new_mortgage.getId());
+        mortgage_status_request.setClient_id(client.getId());
+        trackingService.createMortgageStatus(mortgage_status_request, token);
+        return new_mortgage;
     }
 
     public SimpleResponse addDocuments(Long mortgage_loan_id, MultipartFile[] docs, String token) {
@@ -72,20 +75,17 @@ public class MortgageLoanService {
         if (docs.length == 0) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Must send at least one new document");
         }
-        Boolean is_on_E1 = mortgage_loan.getStatus().getId().equals("E1");
-        Boolean is_on_E2 = mortgage_loan.getStatus().getId().equals("E2");
+        trackingService.updateDocuments(mortgage_loan_id, token);
 
-        if (!(is_on_E1 || is_on_E2)) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "You can not add documents to a request in evaluation of further steps");
-        }
-
-        // Update the mortgage_loan status so it can be reviewed again
-        LoanStatusModel loan_status = utilsService.getLoanStatus(token, "E1");
-        mortgage_loan.addDocuments(docs);
-
-        // TODO: set status on microservice
         mortgageLoanRepository.save(mortgage_loan);
         return new SimpleResponse("Documents added successfully");
+    }
+
+    public SimpleResponse preApproveMortgage(Long mortgage_loan_id, ExecutiveModel executive) {
+        MortgageLoanModel original = getMortgageLoan(mortgage_loan_id);
+        PreApprovedMortgageLoanModel mortgage = new PreApprovedMortgageLoanModel(original);
+        preApprovedRepository.save(mortgage);
+        return new SimpleResponse("PreApproved Mortgage successfully");
     }
 
     private MortgageLoanModel getMortgageLoan(Long id) {
@@ -102,7 +102,6 @@ public class MortgageLoanService {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "You are not the owner of this mortgage loan");
         }
     }
-
 
 }
 

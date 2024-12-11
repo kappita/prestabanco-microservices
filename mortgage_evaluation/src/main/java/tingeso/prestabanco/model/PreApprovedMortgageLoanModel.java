@@ -6,8 +6,6 @@ import jakarta.persistence.Table;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Entity
-@Table(name = "preapproved_mortgage_loan")
 @NoArgsConstructor
 @Data
 

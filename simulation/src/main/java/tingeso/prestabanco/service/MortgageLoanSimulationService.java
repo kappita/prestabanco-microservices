@@ -34,7 +34,12 @@ public class MortgageLoanSimulationService {
         mortgageLoanModel.setLoan_type(type);
         PreApprovedMortgageLoanModel preApprovedLoanModel = new PreApprovedMortgageLoanModel(mortgageLoanModel);
         List<SimulationStep> steps = getValidations(req, client, token);
-        return new SimulationResponse(steps.isEmpty(), steps, preApprovedLoanModel);
+        for (SimulationStep step : steps) {
+            if (!step.getSuccess()) {
+                return new SimulationResponse(false, steps, preApprovedLoanModel);
+            }
+        }
+        return new SimulationResponse(true, steps, preApprovedLoanModel);
     }
 
     private List<SimulationStep> getValidations(MortgageSimulationRequest req, ClientModel client, String token) {

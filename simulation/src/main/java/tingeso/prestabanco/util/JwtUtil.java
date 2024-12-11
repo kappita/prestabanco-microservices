@@ -9,6 +9,7 @@ import tingeso.prestabanco.model.UserModel;
 import tingeso.prestabanco.repository.ClientRepository;
 import tingeso.prestabanco.repository.ExecutiveRepository;
 import tingeso.prestabanco.repository.UserRepository;
+import tingeso.prestabanco.service.AuthService;
 
 import javax.crypto.SecretKey;
 import java.util.Date;
@@ -23,13 +24,7 @@ public class JwtUtil {
     SecretKey secretKey;
 
     @Autowired
-    ClientRepository clientRepository;
-
-    @Autowired
-    ExecutiveRepository executiveRepository;
-
-    @Autowired
-    UserRepository userRepository;
+    AuthService authService;
 
     public String extractUsername(String token) {
         return extractClaim(token, Claims::getSubject);
@@ -96,10 +91,9 @@ public class JwtUtil {
         if (!validateToken(parts[1])) {
             return Optional.empty();
         }
+        ClientModel client = authService.getClient(parts[1]);
 
-        Long id = Long.parseLong(extractClaim(parts[1], Claims::getSubject));
-        Optional<ClientModel> client = clientRepository.findById(id);
-        return client;
+        return Optional.of(client);
     }
 
 
@@ -111,9 +105,8 @@ public class JwtUtil {
         if (!validateToken(parts[1])) {
             return Optional.empty();
         }
-        Long id = Long.parseLong(extractClaim(parts[1], Claims::getSubject));
-        Optional<ExecutiveModel> executive = executiveRepository.findById(id);
-        return executive;
+        ExecutiveModel executive = authService.getExecutive(parts[1]);
+        return Optional.of(executive);
     }
 
     public Optional<UserModel> validateUser(String header) {
@@ -124,9 +117,9 @@ public class JwtUtil {
         if (!validateToken(parts[1])) {
             return Optional.empty();
         }
-        Long id = Long.parseLong(extractClaim(parts[1], Claims::getSubject));
-        Optional<UserModel> user = userRepository.findById(id);
-        return user;
+
+        UserModel user = authService.getUser(parts[1]);
+        return Optional.of(user);
     }
 
 

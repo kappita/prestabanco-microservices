@@ -21,7 +21,7 @@ import java.util.Optional;
 
 @RestController
 @CrossOrigin("*")
-@RequestMapping("/mortgage_loan")
+@RequestMapping("/mortgage_loans")
 public class MortgageLoanController {
     @Autowired
     private MortgageLoanService mortgageService;
@@ -29,23 +29,24 @@ public class MortgageLoanController {
     @Autowired
     private JwtUtil jwtUtil;
 
+    @GetMapping("")
+    public ResponseEntity<List<MortgageLoanModel>> getAllClientMortgageLoans(@RequestHeader("Authorization") String authorization) {
+         Optional<ClientModel> client = jwtUtil.validateClient(authorization);
+         if (client.isEmpty()) {
+             return ResponseEntity.notFound().build();
+         }
+         return ResponseEntity.ok(mortgageService.getAllClientMortgageLoans(client.get()));
+    }
+
     @PostMapping("")
     public ResponseEntity<MortgageLoanModel> postMortgageLoan(@RequestBody MortgageLoanRequest req, @RequestHeader("Authorization") String authorization) {
         Optional<ClientModel> client = jwtUtil.validateClient(authorization);
         if (client.isEmpty()) {
             return ResponseEntity.badRequest().build();
         }
-        return ResponseEntity.ok(mortgageService.receiveMortgage(req, client.get()));
+        return ResponseEntity.ok(mortgageService.receiveMortgage(req, TokenExtractor.extractToken(authorization)));
     }
 
-    @GetMapping("/all_reviewable")
-    public ResponseEntity<List<MortgageLoanModel>> getAllReviewableMortgageLoan(@RequestHeader("Authorization") String authorization) {
-        Optional<ExecutiveModel> executive = jwtUtil.validateExecutive(authorization);
-        if (executive.isEmpty()) {
-            return ResponseEntity.badRequest().build();
-        }
-        return ResponseEntity.ok(mortgageService.getAllReviewable());
-    }
 
     @GetMapping("/{id}")
     public ResponseEntity<? extends MortgageLoanModel> getMortgageLoan(@PathVariable Long id, @RequestHeader("Authorization") String authorization) {
@@ -67,79 +68,12 @@ public class MortgageLoanController {
         return ResponseEntity.ok(mortgageService.addDocuments(id, files, token));
     }
 
-    @PostMapping("/{id}/set_final_approval")
-    public ResponseEntity<SimpleResponse> setFinalApproval(@PathVariable Long id, @RequestHeader("Authorization") String authorization) {
-        Optional<ClientModel> client = jwtUtil.validateClient(authorization);
-        if (client.isEmpty()) {
-            return ResponseEntity.badRequest().build();
-        }
-        return ResponseEntity.ok(mortgageService.setFinalApproval(id, client.get()));
-    }
-
-    @PostMapping("/{id}/cancel_mortgage")
-    public ResponseEntity<SimpleResponse> cancelMortgage(@PathVariable Long id, @RequestHeader("Authorization") String authorization) {
-        Optional<ClientModel> client = jwtUtil.validateClient(authorization);
-        if (client.isEmpty()) {
-            return ResponseEntity.badRequest().build();
-        }
-        return ResponseEntity.ok(mortgageService.cancelMortgageByClient(id, client.get()));
-    }
-
-    @PostMapping("/{id}/set_pending_documentation")
-    public ResponseEntity<SimpleResponse> setPendingDocumentation(@PathVariable Long id, @RequestBody PendingDocumentationRequest req, @RequestHeader("Authorization") String authorization) {
+    @PostMapping("/{id}/pre_approve")
+    public ResponseEntity<SimpleResponse> preApprove(@PathVariable Long id, @RequestHeader("Authorization") String authorization) {
         Optional<ExecutiveModel> executive = jwtUtil.validateExecutive(authorization);
         if (executive.isEmpty()) {
             return ResponseEntity.badRequest().build();
         }
-        return ResponseEntity.ok(mortgageService.setPendingDocumentation(id, req, executive.get()));
+        return ResponseEntity.ok(mortgageService.preApproveMortgage(id, executive.get()));
     }
-
-    @PostMapping("/{id}/set_in_evaluation")
-    public ResponseEntity<SimpleResponse> setInEvaluation(@PathVariable Long id, @RequestHeader("Authorization") String authorization) {
-        Optional<ExecutiveModel> executive = jwtUtil.validateExecutive(authorization);
-        if (executive.isEmpty()) {
-            return ResponseEntity.badRequest().build();
-        }
-        return ResponseEntity.ok(mortgageService.setInEvaluation(id, executive.get()));
-    }
-
-    @PostMapping("/{id}/evaluate_mortgage")
-    public ResponseEntity<SimpleResponse> evaluateMortgage(@PathVariable Long id, @RequestBody CreditEvaluation credit_evaluation, @RequestHeader("Authorization") String authorization) {
-        Optional<ExecutiveModel> executive = jwtUtil.validateExecutive(authorization);
-        if (executive.isEmpty()) {
-            return ResponseEntity.badRequest().build();
-        }
-        return ResponseEntity.ok(mortgageService.evaluateMortgage(id, credit_evaluation, executive.get()));
-    }
-
-    @PostMapping("/{id}/set_approved")
-    public ResponseEntity<SimpleResponse> setApproved(@PathVariable Long id, @RequestHeader("Authorization") String authorization) {
-        Optional<ExecutiveModel> executive = jwtUtil.validateExecutive(authorization);
-        if (executive.isEmpty()) {
-            return ResponseEntity.badRequest().build();
-        }
-        return ResponseEntity.ok(mortgageService.setApproved(id, executive.get()));
-    }
-
-
-    @PostMapping("/{id}/set_outgo")
-    public ResponseEntity<SimpleResponse> setOutgo(@PathVariable Long id, @RequestHeader("Authorization") String authorization) {
-        Optional<ExecutiveModel> executive = jwtUtil.validateExecutive(authorization);
-        if (executive.isEmpty()) {
-            return ResponseEntity.badRequest().build();
-        }
-        return ResponseEntity.ok(mortgageService.setInOutgo(id, executive.get()));
-    }
-
-    @PostMapping("/{id}/review")
-    public ResponseEntity<SimpleResponse> reviewMortgage(@PathVariable Long id, @RequestBody MortgageReview req, @RequestHeader("Authorization") String authorization) {
-        Optional<ExecutiveModel> executive = jwtUtil.validateExecutive(authorization);
-        if (executive.isEmpty()) {
-            return ResponseEntity.badRequest().build();
-        }
-        return ResponseEntity.ok(mortgageService.reviewMortgage(id, req, executive.get()));
-    }
-
-
-
 }

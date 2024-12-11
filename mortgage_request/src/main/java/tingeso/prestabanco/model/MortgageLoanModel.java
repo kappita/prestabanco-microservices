@@ -63,7 +63,6 @@ public class MortgageLoanModel {
 
     public MortgageLoanModel(MortgageLoanRequest request,
                              Long client_id,
-                             LoanStatusModel status,
                              LoanTypeModel loan_type) throws IllegalArgumentException {
         this.client_id = client_id;
         this.payment_term = request.getPayment_term();

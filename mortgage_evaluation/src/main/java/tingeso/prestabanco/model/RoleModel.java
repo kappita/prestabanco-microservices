@@ -10,12 +10,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@Entity
-@Table(name = "role")
 @NoArgsConstructor
 @AllArgsConstructor
 public class RoleModel {
-    @Id
     private Long id;
     private String name;
 

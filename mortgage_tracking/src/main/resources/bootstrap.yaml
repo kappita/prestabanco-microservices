@@ -22,7 +22,7 @@ spring:
       uri: http://localhost:8081
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5432/auth?useSSL=false
+    url: jdbc:postgresql://localhost:5432/tracking?useSSL=false
     username: postgres
     password: admin
   servlet:
