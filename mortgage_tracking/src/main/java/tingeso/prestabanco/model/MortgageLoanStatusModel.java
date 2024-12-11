@@ -13,7 +13,8 @@ import lombok.NoArgsConstructor;
 public class MortgageLoanStatusModel {
     @Id
     private Long mortgage_id;
-    private Long client_id;
+    @Column(name="client_id")
+    private Long clientId;
 
     @JoinColumn(name="loan_status_id")
     @ManyToOne

@@ -28,7 +28,7 @@ public class TrackingService {
     public SimpleResponse createMortgageStatus(MortgageStatusRequest req) {
         MortgageLoanStatusModel mortgage = new MortgageLoanStatusModel();
         mortgage.setMortgage_id(req.getMortgage_id());
-        mortgage.setClient_id(req.getClient_id());
+        mortgage.setClientId(req.getClient_id());
         LoanStatusModel status = getLoanStatus("E1");
         mortgage.setLoan_status(status);
         mortgageStatusRepository.save(mortgage);
@@ -155,7 +155,7 @@ public class TrackingService {
 
     private void verifyOwnership(MortgageLoanStatusModel mortgage, ClientModel client) {
         Long client_id = client.getId();
-        Long mortgage_owner_id = mortgage.getClient_id();
+        Long mortgage_owner_id = mortgage.getClientId();
         if (!Objects.equals(mortgage_owner_id, client_id)) {
             throw new RuntimeException("This is not the owner of the mortgage");
         }

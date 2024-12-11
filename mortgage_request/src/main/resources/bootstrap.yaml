@@ -12,7 +12,7 @@ spring:
     restart:
       aditional-paths: src/main/java
   application:
-    name: mortgage_request
+    name: mortgage
   jpa:
     database: POSTGRESQL
     show-sql: true

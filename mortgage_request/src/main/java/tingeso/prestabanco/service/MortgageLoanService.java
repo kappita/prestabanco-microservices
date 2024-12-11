@@ -2,11 +2,7 @@ package tingeso.prestabanco.service;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
@@ -14,11 +10,7 @@ import tingeso.prestabanco.dto.*;
 import tingeso.prestabanco.model.*;
 import tingeso.prestabanco.repository.*;
 
-import java.io.IOException;
-import java.time.LocalDate;
 import java.util.*;
-import java.sql.Date;
-import java.util.stream.Collectors;
 
 @Service
 public class MortgageLoanService {
@@ -46,7 +38,7 @@ public class MortgageLoanService {
     public MortgageLoanModel getMortgageLoan(Long mortgage_loan_id, UserModel user) {
         MortgageLoanModel mortgage = getMortgageLoan(mortgage_loan_id);
         if (user.getRole().getName().equals("CLIENT")) {
-            if (!mortgage.getClient_id().equals(user.getId())) {
+            if (!mortgage.getClientId().equals(user.getId())) {
                 throw new ResponseStatusException(HttpStatus.FORBIDDEN);
             }
         }
@@ -97,7 +89,7 @@ public class MortgageLoanService {
     }
 
     private void validateMortgageOwnership(MortgageLoanModel mortgage_loan, ClientModel client) {
-        Long mortgage_owner_id = mortgage_loan.getClient_id();
+        Long mortgage_owner_id = mortgage_loan.getClientId();
         if (!mortgage_owner_id.equals(client.getId())) {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "You are not the owner of this mortgage loan");
         }

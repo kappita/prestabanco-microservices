@@ -44,4 +44,19 @@ spring:
           predicates: 
             - Path=/simulator/**
 
+        - id: mortgage
+          uri: lb://mortgage
+          predicates:
+            - Path=/mortgage_loans/**
+        - id: evaluation
+          uri: lb://evaluation
+          predicates:
+            - Path=/evaluation/**
+        - id: tracking
+          uri: lb://tracking
+          predicates:
+            - Path=/tracking/**
+        
+
+
           

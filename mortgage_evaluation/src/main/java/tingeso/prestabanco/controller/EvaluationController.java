@@ -18,7 +18,7 @@ import java.util.Optional;
 
 @RestController
 @CrossOrigin("*")
-@RequestMapping("/mortgage_loan")
+@RequestMapping("/evaluation")
 public class EvaluationController {
     @Autowired
     private MortgageEvaluationService mortgageService;

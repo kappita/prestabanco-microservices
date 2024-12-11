@@ -5,15 +5,11 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.web.multipart.MultipartFile;
-import tingeso.prestabanco.dto.AddDocumentsRequest;
 import tingeso.prestabanco.dto.MortgageLoanRequest;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import static java.lang.Math.pow;
 
@@ -37,7 +33,8 @@ public class MortgageLoanModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     protected Long id;
-    protected Long client_id;
+    @Column(name = "client_id")
+    protected Long clientId;
     @ManyToOne
     @JoinColumn(name = "loan_type_id")
     protected LoanTypeModel loan_type;
@@ -64,7 +61,7 @@ public class MortgageLoanModel {
     public MortgageLoanModel(MortgageLoanRequest request,
                              Long client_id,
                              LoanTypeModel loan_type) throws IllegalArgumentException {
-        this.client_id = client_id;
+        this.clientId = client_id;
         this.payment_term = request.getPayment_term();
         this.financed_amount = request.getFinanced_amount();
         this.interest_rate = request.getInterest_rate();
@@ -77,7 +74,7 @@ public class MortgageLoanModel {
 
     public MortgageLoanModel(MortgageLoanModel mortgage) {
         this.id = mortgage.getId();
-        this.client_id = mortgage.getClient_id();
+        this.clientId = mortgage.getClientId();
         this.payment_term = mortgage.getPayment_term();
         this.financed_amount = mortgage.getFinanced_amount();
         this.interest_rate = mortgage.getInterest_rate();
@@ -135,7 +132,7 @@ public class MortgageLoanModel {
     public String toString() {
         return "MortgageLoanModel{" +
                 "id=" + id +
-                ", client=" + client_id +
+                ", client=" + clientId +
                 ", loan_type=" + loan_type +
                 ", payment_term=" + payment_term +
                 ", financed_amount=" + financed_amount +

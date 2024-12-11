@@ -33,7 +33,7 @@ VALUES (1, 'Primera vivienda', 30, 0.035, 0.05, 0.8),
 
 CREATE TABLE mortgage_loan (
     id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-    client_id INTEGER NOT NULL,
+    client_id BIGINT NOT NULL,
     loan_type_id INTEGER NOT NULL,
     payment_term INTEGER NOT NULL,
     financed_amount INTEGER NOT NULL,
